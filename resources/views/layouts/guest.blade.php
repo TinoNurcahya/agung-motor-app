@@ -1,30 +1,115 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+  <title>{{ config('app.name', 'Laravel') }} - Auth</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+  {{-- Theme Flash Protection --}}
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+  </script>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
-        </div>
-    </body>
+  {{-- Google Fonts --}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  {{-- Font Awesome --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <!-- Scripts -->
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+  <style>
+    .auth-bg {
+      background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('/images/hero.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    html.light .auth-bg {
+      background: linear-gradient(rgba(243, 244, 246, 0.85), rgba(243, 244, 246, 0.95)), url('/images/hero.png');
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased auth-bg min-h-screen flex items-center justify-center p-6">
+
+  {{-- Theme Toggle Float --}}
+  <div class="fixed top-6 right-6">
+    <button id="theme-toggle"
+      class="w-10 h-10 rounded-full glass flex items-center justify-center text-muted hover:text-brand-primary transition-colors">
+      <i class="fa-solid fa-moon" id="theme-icon-dark"></i>
+      <i class="fa-solid fa-sun hidden" id="theme-icon-light"></i>
+    </button>
+  </div>
+
+  <div class="w-full max-w-md">
+    {{-- Logo / Brand --}}
+    <div class="text-center mb-8">
+      <a href="/" class="inline-block">
+        <span class="text-3xl font-extrabold italic tracking-tighter">AGUNG <span
+            class="text-brand-primary">MOTOR</span></span>
+      </a>
+    </div>
+
+    {{-- Main Card --}}
+    <div class="glass-card p-8 md:p-10 shadow-2xl relative overflow-hidden">
+      {{-- Decorative Glow --}}
+      <div class="absolute -top-24 -right-24 w-48 h-48 bg-brand-primary/10 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-brand-primary/5 rounded-full blur-3xl"></div>
+
+      <div class="relative z-10">
+        {{ $slot }}
+      </div>
+    </div>
+
+    {{-- Footer Info --}}
+    <p class="text-center mt-8 text-xs text-muted font-medium uppercase tracking-widest">
+      © {{ date('Y') }} Agung Motor App • Professional Service
+    </p>
+  </div>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    const themeIconDark = document.getElementById('theme-icon-dark');
+    const themeIconLight = document.getElementById('theme-icon-light');
+
+    function updateThemeUI(theme) {
+      if (theme === 'light') {
+        html.classList.add('light');
+        if (themeIconDark) themeIconDark.classList.add('hidden');
+        if (themeIconLight) themeIconLight.classList.remove('hidden');
+      } else {
+        html.classList.remove('light');
+        if (themeIconDark) themeIconDark.classList.remove('hidden');
+        if (themeIconLight) themeIconLight.classList.add('hidden');
+      }
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    updateThemeUI(savedTheme);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const isLight = html.classList.contains('light');
+        const newTheme = isLight ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        updateThemeUI(newTheme);
+      });
+    }
+  </script>
+</body>
+
 </html>

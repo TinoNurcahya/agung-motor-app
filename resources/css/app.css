@@ -1,3 +1,72 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --bg-main: #121212;
+        --bg-surface: rgba(255, 255, 255, 0.05);
+        --bg-surface-solid: #1a1a1a;
+        --text-main: #f3f4f6;
+        --text-muted: #9ca3af;
+        --border-main: rgba(255, 255, 255, 0.1);
+        --glass-blur: blur(12px);
+    }
+
+    :root.light {
+        --bg-main: #f9fafb;
+        --bg-surface: rgba(255, 255, 255, 0.95);
+        --bg-surface-solid: #ffffff;
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --border-main: rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        transition:
+            background-color 0.3s,
+            color 0.3s;
+    }
+}
+
+@layer components {
+    .glass {
+        background-color: var(--bg-surface);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--border-main);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-card {
+        @apply glass rounded-2xl overflow-hidden hover:border-brand-primary/50 transition-all duration-300;
+    }
+
+    .bg-brand-surface {
+        background-color: var(--bg-surface);
+    }
+    .bg-brand-surface-solid {
+        background-color: var(--bg-surface-solid);
+    }
+
+    .text-muted {
+        color: var(--text-muted);
+    }
+
+    .radial-glow {
+        background: radial-gradient(
+            circle at center,
+            rgba(179, 50, 50, 0.15) 0%,
+            transparent 70%
+        );
+    }
+
+    .btn-whatsapp {
+        @apply bg-brand-whatsapp hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full inline-flex items-center gap-2 transition-transform active:scale-95 shadow-lg shadow-green-900/20;
+    }
+
+    .btn-primary {
+        @apply bg-brand-primary hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full transition-transform active:scale-95 shadow-lg shadow-red-900/20;
+    }
+}

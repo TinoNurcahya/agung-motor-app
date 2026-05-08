@@ -11,11 +11,25 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                brand: {
+                    dark: 'var(--bg-main)',
+                    surface: 'var(--bg-surface)',
+                    primary: '#B33232',
+                    whatsapp: '#25D366',
+                    income: '#10B981',
+                    expense: '#B33232',
+                },
+            },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+            },
+            backdropBlur: {
+                xs: '2px',
             },
         },
     },
 
     plugins: [forms],
 };
+
