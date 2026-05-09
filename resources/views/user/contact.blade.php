@@ -77,7 +77,7 @@
           <div class="text-center space-y-3">
             <i class="fa-solid fa-map-location-dot text-5xl text-gray-700"></i>
             <p>[ Embed Google Maps di sini ]</p>
-            <code class="text-xs text-gray-600">&lt;iframe src="https://maps.google.com/..."&gt;</code>
+            <code class="text-xs text-gray-600">iframe</code>
           </div>
         </div>
       </div>

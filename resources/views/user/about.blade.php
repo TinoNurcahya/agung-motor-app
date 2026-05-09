@@ -47,7 +47,7 @@
             <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Pelanggan Puas</p>
           </div>
           <div class="text-center glass-card p-6">
-            <p class="text-4xl font-extrabold text-white">12</p>
+            <p class="text-4xl font-extrabold text-black">12</p>
             <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Mekanik Ahli</p>
           </div>
         </div>

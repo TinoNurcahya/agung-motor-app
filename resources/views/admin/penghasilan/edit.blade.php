@@ -19,10 +19,23 @@
 
     {{-- Form Card --}}
     <div class="glass-card p-8">
-      {{-- action="{{ route('admin.penghasilan.update', $penghasilan->id) }}" method="POST" --}}
-      <form class="space-y-8" id="formEditPenghasilan">
+      <form class="space-y-8" action="{{ route('admin.penghasilan.update', $penghasilan->id) }}" method="POST" id="formEditPenghasilan">
         @csrf
-        {{-- @method('PUT') --}}
+        @method('PUT')
+
+        @if($errors->any())
+          <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+            <div class="flex items-center gap-2 text-red-500 mb-2">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span class="font-bold">Terjadi kesalahan:</span>
+            </div>
+            <ul class="list-disc list-inside text-sm text-red-400">
+              @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
 
         <div class="grid md:grid-cols-2 gap-6">
           {{-- Data Kendaraan & Pemilik --}}
@@ -30,29 +43,39 @@
             <h3 class="text-sm font-bold uppercase tracking-wider text-brand-primary">Informasi Kendaraan</h3>
 
             <div>
-              <label class="block text-sm font-medium mb-2">Tanggal Transaksi <span
-                  class="text-brand-primary">*</span></label>
-              <input type="date" name="tanggal" value="{{ date('Y-m-d') }}"
-                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none">
+              <label class="block text-sm font-medium mb-2">Tanggal Transaksi <span class="text-brand-primary">*</span></label>
+              <input type="date" name="tanggal" value="{{ old('tanggal', $penghasilan->tanggal->format('Y-m-d')) }}"
+                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none @error('tanggal') border-red-500 @enderror">
+              @error('tanggal')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+              @enderror
             </div>
 
             <div>
               <label class="block text-sm font-medium mb-2">Plat Nomor <span class="text-brand-primary">*</span></label>
-              <input type="text" name="plat_nomor" value="B 1234 ABC" placeholder="Contoh: B 1234 ABC"
-                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none uppercase font-bold">
+              <input type="text" name="plat_nomor" value="{{ old('plat_nomor', $penghasilan->plat_nomor) }}" placeholder="Contoh: B 1234 ABC"
+                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none uppercase font-bold @error('plat_nomor') border-red-500 @enderror">
+              @error('plat_nomor')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+              @enderror
             </div>
 
             <div>
               <label class="block text-sm font-medium mb-2">Nama Pemilik <span class="text-brand-primary">*</span></label>
-              <input type="text" name="nama_pemilik" value="Bapak Agus" placeholder="Nama lengkap pemilik"
-                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none">
+              <input type="text" name="nama_pemilik" value="{{ old('nama_pemilik', $penghasilan->nama_pemilik) }}" placeholder="Nama lengkap pemilik"
+                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none @error('nama_pemilik') border-red-500 @enderror">
+              @error('nama_pemilik')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+              @enderror
             </div>
 
             <div>
-              <label class="block text-sm font-medium mb-2">Jenis Layanan / Service <span
-                  class="text-brand-primary">*</span></label>
+              <label class="block text-sm font-medium mb-2">Jenis Layanan / Service <span class="text-brand-primary">*</span></label>
               <textarea name="service" rows="2" placeholder="Detail pengerjaan servis"
-                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none resize-none">Servis Rutin + Ganti Oli</textarea>
+                class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none resize-none @error('service') border-red-500 @enderror">{{ old('service', $penghasilan->service) }}</textarea>
+              @error('service')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+              @enderror
             </div>
           </div>
 
@@ -62,8 +85,7 @@
 
             <div>
               <label class="block text-sm font-medium mb-2">Sparepart yang Digunakan</label>
-              <input type="text" name="sparepart" value="Oli Shell Advance 1L"
-                placeholder="Contoh: Oli Shell, Kanvas Rem"
+              <input type="text" name="sparepart" value="{{ old('sparepart', $penghasilan->sparepart) }}" placeholder="Contoh: Oli Shell, Kanvas Rem"
                 class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none">
             </div>
 
@@ -72,7 +94,7 @@
                 <label class="block text-sm font-medium mb-2">Harga Sparepart</label>
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted text-xs">Rp</span>
-                  <input type="number" name="harga_sparepart" id="harga_sparepart" value="65000" placeholder="0"
+                  <input type="number" name="harga_sparepart" id="harga_sparepart" value="{{ old('harga_sparepart', $penghasilan->harga_sparepart) }}" placeholder="0"
                     class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 pl-10 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none cost-input">
                 </div>
               </div>
@@ -80,26 +102,25 @@
                 <label class="block text-sm font-medium mb-2">Biaya Jasa</label>
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted text-xs">Rp</span>
-                  <input type="number" name="biaya_jasa" id="biaya_jasa" value="35000" placeholder="0"
+                  <input type="number" name="biaya_jasa" id="biaya_jasa" value="{{ old('biaya_jasa', $penghasilan->biaya_jasa) }}" placeholder="0"
                     class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 pl-10 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none cost-input">
                 </div>
               </div>
             </div>
 
             <div class="p-4 rounded-2xl bg-brand-income/5 border border-brand-income/10">
-              <label class="block text-[10px] uppercase tracking-widest font-bold text-brand-income mb-1">Total
-                Pembayaran</label>
+              <label class="block text-[10px] uppercase tracking-widest font-bold text-brand-income mb-1">Total Pembayaran</label>
               <div class="flex items-center gap-2">
                 <span class="text-xl font-bold text-brand-income">Rp</span>
-                <input type="text" id="total_display" value="100.000" readonly
+                <input type="text" id="total_display" value="{{ number_format($penghasilan->total, 0, ',', '.') }}" readonly
                   class="bg-transparent border-none p-0 text-2xl font-black text-brand-income outline-none focus:ring-0 w-full">
-                <input type="hidden" name="total" id="total_value" value="100000">
+                <input type="hidden" name="total" id="total_value" value="{{ $penghasilan->total }}">
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium mb-2">Catatan Tambahan</label>
-              <input type="text" name="catatan" placeholder="Opsional"
+              <input type="text" name="catatan" value="{{ old('catatan', $penghasilan->catatan) }}" placeholder="Opsional"
                 class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-brand-income focus:border-brand-income outline-none">
             </div>
           </div>
