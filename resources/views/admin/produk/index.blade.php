@@ -24,7 +24,7 @@
         </div>
         <div>
           <p class="text-[10px] uppercase font-bold text-muted tracking-widest">Total Produk</p>
-          <p class="text-xl font-black">124</p>
+          <p class="text-xl font-black">{{ $totalProduk ?? 0 }}</p>
         </div>
       </div>
       <div class="glass-card p-4 flex items-center gap-4">
@@ -33,7 +33,7 @@
         </div>
         <div>
           <p class="text-[10px] uppercase font-bold text-muted tracking-widest">Stok Menipis</p>
-          <p class="text-xl font-black text-brand-primary">12</p>
+          <p class="text-xl font-black text-brand-primary">{{ $stokMenipis ?? 0 }}</p>
         </div>
       </div>
       <div class="glass-card p-4 flex items-center gap-4">
@@ -42,27 +42,27 @@
         </div>
         <div>
           <p class="text-[10px] uppercase font-bold text-muted tracking-widest">Kategori</p>
-          <p class="text-xl font-black">8</p>
+          <p class="text-xl font-black">{{ $kategoriCount ?? 0 }}</p>
         </div>
       </div>
     </div>
 
     {{-- Filter & Search --}}
-    <div class="glass-card p-4 flex flex-col md:flex-row gap-4">
+    <form method="GET" action="{{ route('admin.produk.index') }}" class="glass-card p-4 flex flex-col md:flex-row gap-4">
       <div class="flex-1 relative">
         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-muted text-sm"></i>
-        <input type="text" placeholder="Cari nama produk, SKU, atau kategori..."
+        <input type="text" name="search" placeholder="Cari nama produk, SKU, atau kategori..."
+          value="{{ request('search') }}"
           class="w-full bg-brand-surface border border-brand-primary/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-primary outline-none">
       </div>
-      <select
+      <select name="kategori" onchange="this.form.submit()"
         class="bg-brand-surface border border-brand-primary/10 rounded-xl px-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-primary outline-none">
         <option value="">Semua Kategori</option>
-        <option>Oli Mesin</option>
-        <option>Ban Luar/Dalam</option>
-        <option>Aki</option>
-        <option>Sparepart Mesin</option>
+        @foreach($kategoriList ?? [] as $kat)
+          <option value="{{ $kat }}" {{ request('kategori') == $kat ? 'selected' : '' }}>{{ $kat }}</option>
+        @endforeach
       </select>
-    </div>
+    </form>
 
     {{-- Product Table --}}
     <div class="glass-card overflow-hidden">
@@ -78,112 +78,79 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-brand-primary/5">
-            @php
-              $products = [
-                  [
-                      'nama' => 'Oli Yamalube Matic 800ml',
-                      'cat' => 'Oli Mesin',
-                      'harga' => 'Rp 45.000',
-                      'stok' => 24,
-                      'status' => 'ok',
-                  ],
-                  [
-                      'nama' => 'Ban IRC NR82 80/90-14',
-                      'cat' => 'Ban',
-                      'harga' => 'Rp 210.000',
-                      'stok' => 5,
-                      'status' => 'warning',
-                  ],
-                  [
-                      'nama' => 'Aki GS Astra YTZ5S',
-                      'cat' => 'Aki',
-                      'harga' => 'Rp 245.000',
-                      'stok' => 12,
-                      'status' => 'ok',
-                  ],
-                  [
-                      'nama' => 'Busi NGK C7HSA',
-                      'cat' => 'Sparepart',
-                      'harga' => 'Rp 15.000',
-                      'stok' => 50,
-                      'status' => 'ok',
-                  ],
-                  [
-                      'nama' => 'Kampas Rem Depan Honda Vario',
-                      'cat' => 'Sparepart',
-                      'harga' => 'Rp 55.000',
-                      'stok' => 0,
-                      'status' => 'danger',
-                  ],
-              ];
-            @endphp
-
-            @foreach ($products as $p)
+            @forelse($produk as $item)
               <tr class="hover:bg-brand-primary/5 transition-colors group">
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
-                    <div
-                      class="w-10 h-10 rounded-lg bg-brand-surface border border-brand-primary/10 flex items-center justify-center text-muted">
-                      <i class="fa-solid fa-image text-xs"></i>
+                    <div class="w-10 h-10 rounded-lg bg-brand-surface border border-brand-primary/10 flex items-center justify-center text-muted overflow-hidden">
+                      @if($item->gambar && Storage::disk('public')->exists($item->gambar))
+                        <img src="{{ Storage::url($item->gambar) }}" class="w-full h-full object-cover">
+                      @else
+                        <i class="fa-solid fa-image text-xs"></i>
+                      @endif
                     </div>
                     <div>
-                      <p class="text-sm font-bold">{{ $p['nama'] }}</p>
-                      <p class="text-[10px] text-muted uppercase">SKU: AM-PROD-{{ rand(100, 999) }}</p>
+                      <p class="text-sm font-bold">{{ $item->nama }}</p>
+                      <p class="text-[10px] text-muted uppercase">SKU: {{ $item->sku ?: 'AM-PROD-' . str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</p>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <span
-                    class="text-xs font-medium px-2 py-1 rounded-md bg-brand-primary/5 text-muted">{{ $p['cat'] }}</span>
+                  <span class="text-xs font-medium px-2 py-1 rounded-md bg-brand-primary/5 text-muted">{{ $item->kategori }}</span>
                 </td>
-                <td class="px-6 py-4 text-sm font-bold text-right">{{ $p['harga'] }}</td>
+                <td class="px-6 py-4 text-sm font-bold text-right">{{ $item->harga_formatted }}</td>
                 <td class="px-6 py-4">
                   <div class="flex flex-col items-center">
-                    <span
-                      class="text-sm font-black {{ $p['stok'] == 0 ? 'text-brand-primary' : ($p['stok'] < 10 ? 'text-orange-500' : 'text-green-500') }}">
-                      {{ $p['stok'] }}
+                    <span class="text-sm font-black {{ $item->stok <= 0 ? 'text-brand-primary' : ($item->stok < 10 ? 'text-orange-500' : 'text-green-500') }}">
+                      {{ $item->stok }}
                     </span>
-                    @if ($p['stok'] == 0)
+                    @if ($item->stok <= 0)
                       <span class="text-[8px] uppercase font-bold text-brand-primary">Habis</span>
-                    @elseif($p['stok'] < 10)
+                    @elseif($item->stok < 10)
                       <span class="text-[8px] uppercase font-bold text-orange-500">Menipis</span>
                     @endif
                   </div>
                 </td>
                 <td class="px-6 py-4">
                   <div class="flex justify-center gap-2">
-                    <a href="{{ route('admin.produk.edit', 1) }}"
+                    <a href="{{ route('admin.produk.edit', $item->id) }}"
                       class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center"
                       title="Edit">
                       <i class="fa-solid fa-pen-to-square text-xs"></i>
                     </a>
-                    <button
-                      class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white transition-all"
-                      title="Hapus">
-                      <i class="fa-solid fa-trash text-xs"></i>
-                    </button>
+                    <form action="{{ route('admin.produk.destroy', $item->id) }}" 
+                          method="POST" 
+                          class="inline-block" 
+                          onsubmit="return confirm('Yakin hapus produk {{ $item->nama }}?')">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit"
+                        class="w-8 h-8 rounded-lg bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white transition-all"
+                        title="Hapus">
+                        <i class="fa-solid fa-trash text-xs"></i>
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>
-            @endforeach
+            @empty
+              <tr>
+                <td colspan="5" class="px-6 py-12 text-center text-muted">
+                  <i class="fa-solid fa-inbox text-4xl mb-3 block"></i>
+                  Tidak ada data produk
+                </td>
+              </tr>
+            @endforelse
           </tbody>
         </table>
       </div>
       <div class="p-6 border-t border-brand-primary/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-xs text-muted">Menampilkan 1–5 dari 124 produk</p>
+        <p class="text-xs text-muted">
+          Menampilkan {{ $produk->firstItem() ?? 0 }}–{{ $produk->lastItem() ?? 0 }} 
+          dari {{ $produk->total() ?? 0 }} produk
+        </p>
         <div class="flex gap-1">
-          <button
-            class="w-8 h-8 rounded-lg bg-brand-surface border border-brand-primary/10 text-muted text-xs hover:text-brand-primary transition-colors"><i
-              class="fa-solid fa-chevron-left"></i></button>
-          <button
-            class="w-8 h-8 rounded-lg bg-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/20">1</button>
-          <button
-            class="w-8 h-8 rounded-lg bg-brand-surface border border-brand-primary/10 text-muted text-xs hover:text-brand-primary transition-colors">2</button>
-          <button
-            class="w-8 h-8 rounded-lg bg-brand-surface border border-brand-primary/10 text-muted text-xs hover:text-brand-primary transition-colors">3</button>
-          <button
-            class="w-8 h-8 rounded-lg bg-brand-surface border border-brand-primary/10 text-muted text-xs hover:text-brand-primary transition-colors"><i
-              class="fa-solid fa-chevron-right"></i></button>
+          {{ $produk->appends(request()->query())->links() }}
         </div>
       </div>
     </div>
