@@ -1,0 +1,1 @@
+{"success":true,"message":"Login berhasil","data":{"user":{"id":4,"name":"Admin","email":"admin@test.com","role":"admin","email_verified_at":null,"api_token":null,"created_at":"2026-05-10T17:09:06.000000Z","updated_at":"2026-05-10T17:56:09.000000Z"},"token":"4|jjtqu1D4EpNBsPcjGSbEPI7AfXM1t1cfNIMXw3vKed22c6fa","token_type":"Bearer","role":"admin"}}
