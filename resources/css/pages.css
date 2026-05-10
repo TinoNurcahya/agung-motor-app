@@ -1,0 +1,12 @@
+/* 
+ * Generic Page Styles for internal pages
+ */
+
+.text-glow {
+    text-shadow: 0 0 20px rgba(179, 50, 50, 0.5);
+}
+
+.reveal-word {
+    overflow: hidden;
+    display: inline-block;
+}

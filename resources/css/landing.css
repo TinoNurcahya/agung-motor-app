@@ -1,0 +1,79 @@
+/* Hero Section Background */
+.hero-bg {
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0.4), #121212),
+        url("/images/hero.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.text-glow {
+    text-shadow: 0 0 20px rgba(179, 50, 50, 0.5);
+}
+
+.neon-border {
+    box-shadow: 0 0 15px rgba(179, 50, 50, 0.3);
+}
+
+.glass-dark {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reveal-word {
+    overflow: hidden;
+    display: inline-block;
+}
+
+/* Logo Marquee Animation */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+.mask-fade {
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 10%,
+        black 90%,
+        transparent
+    );
+}
+
+.sticky-text {
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.service-num {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+    color: transparent;
+    font-size: 8rem;
+    line-height: 1;
+}
+
+.blur-reveal {
+    filter: blur(20px);
+    opacity: 0;
+    transition: filter 1.5s ease, opacity 1.5s ease;
+}
+
+.blur-reveal.active {
+    filter: blur(0);
+    opacity: 1;
+}

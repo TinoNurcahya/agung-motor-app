@@ -5,33 +5,33 @@
 @section('content')
 
   <!-- ===== PAGE HERO ===== -->
-  <section class="relative pt-40 pb-20 bg-brand-dark overflow-hidden">
+  <section class="relative pt-40 pb-20 bg-main overflow-hidden">
     <div class="absolute inset-0 radial-glow pointer-events-none opacity-60"></div>
     <div class="max-w-7xl mx-auto px-6 text-center space-y-4 relative z-10">
       <span
         class="inline-block px-4 py-1.5 rounded-full glass text-brand-primary text-xs font-bold uppercase tracking-widest">Spare
         Part Original</span>
-      <h1 class="text-5xl md:text-7xl font-extrabold">Toko <span class="text-brand-primary">Spare Part</span></h1>
+      <h1 class="text-5xl md:text-7xl font-extrabold text-main reveal-text">Toko <span class="text-brand-primary">Spare Part</span></h1>
       <p class="text-gray-500 max-w-2xl mx-auto text-lg">Suku cadang original bergaransi. Order sekarang, siap pasang di
         bengkel kami.</p>
     </div>
   </section>
 
   <!-- ===== SHOP GRID ===== -->
-  <section class="py-20 bg-brand-dark">
+  <section class="py-12 md:py-20 bg-main">
     <div class="max-w-7xl mx-auto px-6">
 
       <!-- Filter Bar -->
       <div class="flex flex-wrap gap-3 mb-12">
         <button class="px-5 py-2 rounded-full bg-brand-primary text-white text-sm font-semibold">Semua</button>
-        <button class="px-5 py-2 rounded-full glass text-gray-500 hover:text-white text-sm font-medium transition-all">Oli
+        <button class="px-5 py-2 rounded-full glass text-gray-500 hover:text-main text-sm font-medium transition-all">Oli
           & Pelumas</button>
-        <button class="px-5 py-2 rounded-full glass text-gray-500 hover:text-white text-sm font-medium transition-all">Rem
+        <button class="px-5 py-2 rounded-full glass text-gray-500 hover:text-main text-sm font-medium transition-all">Rem
           & Suspensi</button>
         <button
-          class="px-5 py-2 rounded-full glass text-gray-500 hover:text-white text-sm font-medium transition-all">Pengapian</button>
+          class="px-5 py-2 rounded-full glass text-gray-500 hover:text-main text-sm font-medium transition-all">Pengapian</button>
         <button
-          class="px-5 py-2 rounded-full glass text-gray-500 hover:text-white text-sm font-medium transition-all">Transmisi</button>
+          class="px-5 py-2 rounded-full glass text-gray-500 hover:text-main text-sm font-medium transition-all">Transmisi</button>
       </div>
 
       <!-- Products -->
@@ -44,7 +44,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Oli & Pelumas</span>
-            <h3 class="font-bold text-base flex-1">Premium Engine Oil SAE 10W-40</h3>
+            <h3 class="font-bold text-base text-main flex-1">Premium Engine Oil SAE 10W-40</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 125.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-green-400">Stok: 24</span>
@@ -63,7 +63,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Rem & Suspensi</span>
-            <h3 class="font-bold text-base flex-1">Racing Brake Pads Set</h3>
+            <h3 class="font-bold text-base text-main flex-1">Racing Brake Pads Set</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 85.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-green-400">Stok: 18</span>
@@ -82,7 +82,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Pengapian</span>
-            <h3 class="font-bold text-base flex-1">Iridium Spark Plug NGK CR8EIX</h3>
+            <h3 class="font-bold text-base text-main flex-1">Iridium Spark Plug NGK CR8EIX</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 45.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-green-400">Stok: 40</span>
@@ -101,7 +101,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Transmisi</span>
-            <h3 class="font-bold text-base flex-1">Heavy Duty Chain & Sprocket Set</h3>
+            <h3 class="font-bold text-base text-main flex-1">Heavy Duty Chain & Sprocket Set</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 350.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-yellow-400">Stok: 5</span>
@@ -119,7 +119,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Oli & Pelumas</span>
-            <h3 class="font-bold text-base flex-1">Gear Oil Honda MGF 90</h3>
+            <h3 class="font-bold text-base text-main flex-1">Gear Oil Honda MGF 90</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 20.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-green-400">Stok: 60</span>
@@ -137,7 +137,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Filter</span>
-            <h3 class="font-bold text-base flex-1">Filter Udara Racing K&N Style</h3>
+            <h3 class="font-bold text-base text-main flex-1">Filter Udara Racing K&N Style</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 65.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-green-400">Stok: 12</span>
@@ -155,7 +155,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Kelistrikan</span>
-            <h3 class="font-bold text-base flex-1">Aki Kering GS GTZ5S MF 12V</h3>
+            <h3 class="font-bold text-base text-main flex-1">Aki Kering GS GTZ5S MF 12V</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 270.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-green-400">Stok: 8</span>
@@ -173,7 +173,7 @@
           </div>
           <div class="p-5 flex flex-col flex-1 gap-3">
             <span class="text-xs text-gray-500 uppercase tracking-wider">Suspensi</span>
-            <h3 class="font-bold text-base flex-1">Shock Absorber Belakang KYB</h3>
+            <h3 class="font-bold text-base text-main flex-1">Shock Absorber Belakang KYB</h3>
             <div class="flex items-center justify-between">
               <p class="text-brand-primary font-extrabold text-lg">Rp 450.000</p>
               <span class="text-xs glass px-2 py-0.5 rounded text-red-400">Stok: 2</span>
@@ -190,3 +190,11 @@
   </section>
 
 @endsection
+
+@push('styles')
+  @vite(['resources/css/pages.css'])
+@endpush
+
+@push('scripts')
+  @vite(['resources/js/pages.js'])
+@endpush

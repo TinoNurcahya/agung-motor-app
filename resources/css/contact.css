@@ -1,0 +1,59 @@
+/*
+ * Cinematic Contact Page Styles
+ */
+
+.contact-hero-bg {
+    background: radial-gradient(circle at 70% 30%, rgba(179, 50, 50, 0.15) 0%, transparent 60%);
+}
+
+.map-container {
+    mask-image: radial-gradient(white, black);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.map-overlay {
+    background: linear-gradient(to right, var(--bg-main) 0%, transparent 20%, transparent 80%, var(--bg-main) 100%),
+                linear-gradient(to bottom, var(--bg-main) 0%, transparent 20%, transparent 80%, var(--bg-main) 100%);
+    pointer-events: none;
+}
+
+.map-frame {
+    filter: grayscale(100%) contrast(1.2) opacity(0.7);
+    transition: filter 0.8s ease;
+}
+
+.map-wrap:hover .map-frame {
+    filter: grayscale(20%) contrast(1) opacity(1);
+}
+
+.contact-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -10px rgba(179, 50, 50, 0.1);
+}
+
+@media (max-width: 640px) {
+.contact-card {
+text-align: center;
+}
+
+
+.contact-card > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-card h4,
+.contact-card p,
+.contact-card a {
+    text-align: center;
+}
+
+
+}

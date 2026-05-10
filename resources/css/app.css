@@ -29,6 +29,27 @@
             background-color 0.3s,
             color 0.3s;
     }
+
+    /* Lenis Smooth Scroll */
+    html.lenis {
+        height: auto;
+    }
+
+    .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+        overflow: hidden;
+    }
+
+    .lenis.lenis-scrolling iframe {
+        pointer-events: none;
+    }
 }
 
 @layer components {
@@ -52,6 +73,10 @@
 
     .text-muted {
         color: var(--text-muted);
+    }
+
+    .text-main {
+        color: var(--text-main);
     }
 
     .radial-glow {

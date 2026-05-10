@@ -1,0 +1,49 @@
+/*
+ * Cinematic About Page Styles
+ */
+
+.about-hero-bg {
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0.3), var(--bg-main)),
+        url("/images/hero.png"); /* Replace with an actual garage/workshop image if possible */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.light .about-hero-bg {
+    background: linear-gradient(to bottom, rgba(249, 250, 251, 0.5), var(--bg-main)),
+        url("/images/hero.png");
+}
+
+.text-stroke-primary {
+    -webkit-text-stroke: 2px rgba(179, 50, 50, 0.5);
+    color: transparent;
+}
+
+.glow-line {
+    width: 1px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(179, 50, 50, 0.8), transparent);
+}
+
+.parallax-wrap {
+    overflow: hidden;
+    border-radius: 2rem;
+}
+
+.parallax-inner {
+    height: 120%;
+    width: 100%;
+    object-fit: cover;
+    transform: translateY(-10%);
+}
+
+.quote-mark {
+    font-size: 10rem;
+    line-height: 0;
+    color: rgba(179, 50, 50, 0.1);
+    position: absolute;
+    top: 40px;
+    left: -20px;
+    z-index: 0;
+}

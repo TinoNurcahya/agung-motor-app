@@ -25,25 +25,20 @@
 
   {{-- Font Awesome --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+  {{-- Animation Libraries --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+ 
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   {{-- Vite Assets --}}
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+  @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/ui.js'])
+ 
   {{-- Per-page styles --}}
   @stack('styles')
-
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
-    .hero-bg {
-      background: linear-gradient(rgba(18, 18, 18, 0.75), rgba(18, 18, 18, 0.95)), url('/images/hero.png');
-      background-size: cover;
-      background-position: center;
-    }
-  </style>
 </head>
 
 <body class="font-sans antialiased">
@@ -55,6 +50,9 @@
   </main>
 
   @include('partials.landing.footer')
+
+  {{-- Modals Stack --}}
+  @stack('modals')
 
   {{-- Per-page scripts --}}
   @stack('scripts')
