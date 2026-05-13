@@ -40,6 +40,25 @@
     html.light .auth-bg {
       background: linear-gradient(rgba(243, 244, 246, 0.85), rgba(243, 244, 246, 0.95)), url('/images/hero.png');
     }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatPulsate {
+      0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.2)); }
+      50% { transform: translateY(-6px) scale(1.02); filter: drop-shadow(0 0 25px rgba(220, 38, 38, 0.5)); }
+    }
+    .animate-logo {
+      animation: fadeInDown 0.8s ease-out forwards, floatPulsate 4s ease-in-out 0.8s infinite;
+    }
+    .animate-card {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
   </style>
 </head>
 
@@ -56,15 +75,14 @@
 
   <div class="w-full max-w-md">
     {{-- Logo / Brand --}}
-    <div class="text-center mb-8">
+    <div class="text-center -mb-4 md:-mb-6 relative z-20 animate-logo">
       <a href="/" class="inline-block">
-        <span class="text-3xl font-extrabold italic tracking-tighter">AGUNG <span
-            class="text-brand-primary">MOTOR</span></span>
+        <img src="/images/logo.png" alt="Agung Motor" class="w-64 md:w-80 h-auto object-contain mx-auto transition-transform duration-300 hover:scale-105">
       </a>
     </div>
 
     {{-- Main Card --}}
-    <div class="glass-card p-8 md:p-10 shadow-2xl relative overflow-hidden">
+    <div class="glass-card p-8 md:p-10 shadow-2xl relative overflow-hidden animate-card">
       {{-- Decorative Glow --}}
       <div class="absolute -top-24 -right-24 w-48 h-48 bg-brand-primary/10 rounded-full blur-3xl"></div>
       <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-brand-primary/5 rounded-full blur-3xl"></div>

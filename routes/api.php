@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Dashboard
     Route::get('/dashboard/overview', [DashboardController::class, 'overview']);
     Route::get('/dashboard/chart', [DashboardController::class, 'chart']);
+    Route::get('/dashboard/notifications', [DashboardController::class, 'notifications']);
     
     // Penghasilan (Income)
     Route::apiResource('penghasilan', PenghasilanController::class);

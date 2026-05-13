@@ -81,6 +81,8 @@ class DashboardController extends Controller
                 'labels' => $labels,
                 'penghasilan' => $incomeData,
                 'pengeluaran' => $expenseData,
+                'income' => $incomeData,
+                'expense' => $expenseData,
             ]
         ]);
     }
@@ -119,6 +121,62 @@ class DashboardController extends Controller
         return response()->json([
             'success' => true,
             'data' => $transactions
+        ]);
+    }
+
+    public function notifications()
+    {
+        $notifications = [];
+
+        // 1. Stok Menipis & Habis
+        $lowStock = Produk::where('stok', '<', 10)->get();
+        foreach ($lowStock as $p) {
+            $type = $p->stok <= 0 ? 'danger' : 'warning';
+            $msg = $p->stok <= 0 ? 'Stok produk habis dan perlu segera diisi ulang.' : 'Sisa stok hanya ' . $p->stok . ' unit.';
+            $notifications[] = [
+                'id' => 'p_' . $p->id,
+                'title' => ($p->stok <= 0 ? 'Stok Habis: ' : 'Stok Menipis: ') . $p->nama,
+                'message' => $msg,
+                'type' => $type,
+                'time' => $p->updated_at ? $p->updated_at->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->updated_at ? $p->updated_at->timestamp : now()->timestamp,
+            ];
+        }
+
+        // 2. Transaksi Pemasukan Terbaru
+        $penghasilan = Penghasilan::latest('tanggal')->take(5)->get();
+        foreach ($penghasilan as $p) {
+            $notifications[] = [
+                'id' => 'inc_' . $p->id,
+                'title' => 'Pemasukan Baru: ' . $p->service,
+                'message' => 'Tercatat pemasukan sebesar Rp ' . number_format($p->total, 0, ',', '.'),
+                'type' => 'success',
+                'time' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->timestamp : now()->timestamp,
+            ];
+        }
+
+        // 3. Transaksi Pengeluaran Terbaru
+        $pengeluaran = Pengeluaran::latest('tanggal')->take(5)->get();
+        foreach ($pengeluaran as $p) {
+            $notifications[] = [
+                'id' => 'exp_' . $p->id,
+                'title' => 'Pengeluaran Bengkel: ' . $p->keterangan,
+                'message' => 'Tercatat pengeluaran sebesar Rp ' . number_format($p->nominal, 0, ',', '.'),
+                'type' => 'info',
+                'time' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->timestamp : now()->timestamp,
+            ];
+        }
+
+        // Urutkan berdasarkan timestamp terbaru
+        usort($notifications, function($a, $b) {
+            return $b['timestamp'] <=> $a['timestamp'];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => array_slice($notifications, 0, 15)
         ]);
     }
 }

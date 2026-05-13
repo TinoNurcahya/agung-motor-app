@@ -36,6 +36,54 @@ class StatistikController extends Controller
         ]);
     }
 
+    // Endpoint for mobile summary
+    public function summary(Request $request)
+    {
+        $period = $request->get('period', 30);
+        $summary = $this->getSummaryData($period);
+        $topServices = $this->getTopServices($period);
+
+        return response()->json(array_merge($summary, [
+            'success' => true,
+            'top_services' => $topServices
+        ]));
+    }
+
+    // Endpoint for mobile trend
+    public function trend(Request $request)
+    {
+        $period = $request->get('period', 30);
+        $trendData = $this->getTrendData($period);
+
+        return response()->json(array_merge($trendData, [
+            'success' => true
+        ]));
+    }
+
+    // Endpoint for mobile chart / distribution
+    public function chart(Request $request)
+    {
+        $period = $request->get('period', 30);
+        $distribution = $this->getDistributionData($period);
+
+        return response()->json([
+            'success' => true,
+            'distribution' => $distribution
+        ]);
+    }
+
+    // Endpoint for mobile top services
+    public function topServices(Request $request)
+    {
+        $period = $request->get('period', 30);
+        $topServices = $this->getTopServices($period);
+
+        return response()->json([
+            'success' => true,
+            'data' => $topServices
+        ]);
+    }
+
     // Get revenue statistics
     public function revenue(Request $request)
     {
@@ -264,7 +312,9 @@ class StatistikController extends Controller
         return [
             'labels' => $labels,
             'penghasilan' => $incomeData,
-            'pengeluaran' => $expenseData
+            'pengeluaran' => $expenseData,
+            'income' => $incomeData,
+            'expense' => $expenseData,
         ];
     }
 

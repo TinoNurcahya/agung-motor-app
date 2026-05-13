@@ -8,8 +8,8 @@
 
     {{-- Brand Column --}}
     <div class="space-y-6 lg:col-span-2">
-      <a href="{{ route('home') }}" class="text-2xl font-extrabold italic tracking-tighter">
-        AGUNG <span class="text-brand-primary">MOTOR</span>
+      <a href="{{ route('home') }}" class="inline-block mb-2">
+        <img src="/images/logo.png" alt="Agung Motor" class="h-12 object-contain">
       </a>
       <p class="text-sm text-muted max-w-sm leading-relaxed">
         Bengkel motor professional dengan mekanik bersertifikat dan suku cadang original. Memberikan pelayanan terbaik

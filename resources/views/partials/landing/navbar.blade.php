@@ -7,8 +7,8 @@
   <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
     {{-- Logo --}}
-    <a href="{{ route('home') }}" class="text-2xl font-extrabold tracking-tighter italic">
-      AGUNG <span class="text-brand-primary">MOTOR</span>
+    <a href="{{ route('home') }}" class="flex items-center gap-3">
+      <img src="/images/logo.png" alt="Agung Motor" class="h-16 object-contain">
     </a>
 
     {{-- Desktop Nav --}}
