@@ -7,6 +7,8 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="description" content="@yield('meta_description', 'Agung Motor — Bengkel motor modern, profesional, dan terpercaya di Jakarta.')">
   <title>@yield('title', 'Agung Motor — Bengkel Motor Modern')</title>
+  <link rel="shortcut icon" href="{{ asset('images/logo.png') }}" type="image/png">
+  <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 
   {{-- Theme Flash Protection --}}
   <script>

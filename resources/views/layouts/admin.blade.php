@@ -16,8 +16,8 @@
     }
   </script>
 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('images/logo.png') }}" type="image/png">
+  <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 
   {{-- Google Fonts --}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
