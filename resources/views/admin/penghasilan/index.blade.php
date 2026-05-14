@@ -232,12 +232,12 @@
 @push('scripts')
 <script>
   // Auto submit search when typing (with debounce)
-  let searchTimeout;
-  const searchInput = document.querySelector('input[name="search"]');
-  if (searchInput) {
-    searchInput.addEventListener('input', function() {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
+  let penghasilanSearchTimeout;
+  const penghasilanSearchInput = document.querySelector('input[name="search"]');
+  if (penghasilanSearchInput) {
+    penghasilanSearchInput.addEventListener('input', function() {
+      clearTimeout(penghasilanSearchTimeout);
+      penghasilanSearchTimeout = setTimeout(() => {
         document.getElementById('searchForm').submit();
       }, 500);
     });

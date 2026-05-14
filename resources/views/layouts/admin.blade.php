@@ -77,6 +77,27 @@
 
   </div>
 
+  {{-- Notification Dropdown Modal Sesuai Tema --}}
+  <div id="notification-dropdown" class="hidden fixed top-16 right-6 w-80 sm:w-96 glass-card shadow-2xl border border-brand-primary/20 overflow-hidden z-[999999] mt-2 max-h-[500px] flex flex-col">
+    <div class="p-4 border-b border-brand-primary/10 bg-brand-primary/5 flex items-center justify-between sticky top-0 shadow-sm z-10">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-brand-primary/20 flex items-center justify-center text-brand-primary">
+          <i class="fa-solid fa-bell text-xs animate-bounce"></i>
+        </div>
+        <p class="text-xs font-bold uppercase tracking-wider text-main">Notifikasi Sistem</p>
+      </div>
+      <button id="close-notifications" onclick="document.getElementById('notification-dropdown').classList.add('hidden')" class="w-7 h-7 rounded-lg hover:bg-brand-primary/10 flex items-center justify-center text-muted hover:text-brand-primary transition-colors cursor-pointer">
+        <i class="fa-solid fa-times text-xs"></i>
+      </button>
+    </div>
+    <div id="notification-list" class="overflow-y-auto divide-y divide-brand-primary/10 max-h-[380px] overscroll-contain pr-1 custom-scrollbar">
+      <div class="p-8 text-center text-muted"><i class="fa-solid fa-circle-notch fa-spin text-xl mb-2 text-brand-primary block"></i> Memuat data...</div>
+    </div>
+    <div class="p-3 border-t border-brand-primary/10 bg-brand-primary/5 text-center">
+      <p class="text-[10px] text-muted">Aktivitas tersinkronisasi otomatis setiap 10 detik</p>
+    </div>
+  </div>
+
   {{-- Per-page scripts --}}
   @stack('scripts')
 

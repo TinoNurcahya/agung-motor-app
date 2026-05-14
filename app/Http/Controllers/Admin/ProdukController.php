@@ -77,24 +77,24 @@ class ProdukController extends Controller
 
     public function show($id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Produk::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         return view('admin.produk.show', compact('produk'));
     }
 
     public function edit($id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Produk::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         return view('admin.produk.edit', compact('produk'));
     }
 
     public function update(Request $request, $id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Produk::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'kategori' => 'required|string|max:100',
-            'sku' => 'nullable|string|max:100|unique:produk,sku,' . $id,
+            'sku' => 'nullable|string|max:100|unique:produk,sku,' . $produk->id,
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string',
@@ -127,7 +127,7 @@ class ProdukController extends Controller
 
     public function destroy($id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Produk::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         
         // Hapus gambar jika ada
         if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {

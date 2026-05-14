@@ -110,7 +110,7 @@ class PengeluaranController extends Controller
      */
     public function show($id)
     {
-        $pengeluaran = Pengeluaran::findOrFail($id);
+        $pengeluaran = Pengeluaran::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         return view('admin.pengeluaran.show', compact('pengeluaran'));
     }
 
@@ -119,7 +119,7 @@ class PengeluaranController extends Controller
      */
     public function edit($id)
     {
-        $pengeluaran = Pengeluaran::findOrFail($id);
+        $pengeluaran = Pengeluaran::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         return view('admin.pengeluaran.edit', compact('pengeluaran'));
     }
 
@@ -128,7 +128,7 @@ class PengeluaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pengeluaran = Pengeluaran::findOrFail($id);
+        $pengeluaran = Pengeluaran::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         
         $validated = $request->validate([
             'tanggal' => 'required|date',
@@ -157,7 +157,7 @@ class PengeluaranController extends Controller
      */
     public function destroy($id)
     {
-        $pengeluaran = Pengeluaran::findOrFail($id);
+        $pengeluaran = Pengeluaran::where('slug', $id)->orWhere('id', $id)->firstOrFail();
         $pengeluaran->delete();
 
         if (request()->ajax() || request()->wantsJson()) {

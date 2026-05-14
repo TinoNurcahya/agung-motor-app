@@ -38,6 +38,7 @@ Route::get('/contact', fn() => view('user.contact'))->name('contact');
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/refresh-chart', [DashboardController::class, 'refreshChart'])->name('refresh-chart');
+    Route::get('/notifications', [DashboardController::class, 'notifications'])->name('notifications');
     
     Route::prefix('penghasilan')->name('penghasilan.')->group(function() {
         Route::get('/', [PenghasilanController::class, 'index'])->name('index');

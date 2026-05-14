@@ -166,12 +166,12 @@
 
 @push('scripts')
 <script>
-  let searchTimeout;
-  const searchInput = document.querySelector('input[name="search"]');
-  if (searchInput) {
-    searchInput.addEventListener('input', function() {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
+  let pengeluaranSearchTimeout;
+  const pengeluaranSearchInput = document.querySelector('input[name="search"]');
+  if (pengeluaranSearchInput) {
+    pengeluaranSearchInput.addEventListener('input', function() {
+      clearTimeout(pengeluaranSearchTimeout);
+      pengeluaranSearchTimeout = setTimeout(() => {
         document.getElementById('searchForm').submit();
       }, 500);
     });

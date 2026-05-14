@@ -148,6 +148,125 @@
     </div>
   </section>
 
+  {{-- ===== PROFESSIONAL FAQ (DICODING STYLE) ===== --}}
+  <section class="py-20 md:py-32 bg-main border-t border-brand-primary/10 relative overflow-hidden" x-data="{ activeTab: 'all', activeAccordion: null }">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[400px] radial-glow opacity-10 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      {{-- Header FAQ --}}
+      <div class="text-center space-y-4 mb-12">
+        <span class="text-brand-primary text-[10px] font-black uppercase tracking-[0.5em] px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 shadow-sm inline-block">
+          Pertanyaan Populer
+        </span>
+        <h2 class="text-4xl md:text-6xl font-black tracking-tight text-main reveal-text">
+          PERTANYAAN UMUM <br>
+          <span class="text-brand-primary text-glow">(FAQ)</span>
+        </h2>
+        <p class="text-muted text-base md:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
+          Temukan jawaban atas pertanyaan seputar garansi, keaslian suku cadang, dan prosedur pendaftaran servis di Agung Motor.
+        </p>
+      </div>
+
+      {{-- Kategori Tab Filters (Sleek Floating Pills) --}}
+      <div class="flex flex-wrap items-center justify-center gap-3 max-w-3xl mx-auto mb-12">
+        @foreach ([
+          ['all', 'Semua Pertanyaan', 'fa-asterisk'],
+          ['garansi', 'Servis & Garansi', 'fa-shield-halved'],
+          ['stok', 'Sparepart & Stok', 'fa-box'],
+          ['biaya', 'Booking & Biaya', 'fa-wallet']
+        ] as [$id, $title, $icon])
+          <button @click="activeTab = '{{ $id }}'; activeAccordion = null"
+            :class="activeTab === '{{ $id }}' ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/30 font-bold scale-105' : 'bg-surface text-muted hover:text-main border border-brand-primary/10 hover:border-brand-primary/30'"
+            class="px-6 py-3 rounded-full text-xs font-semibold flex items-center gap-2 transition-all duration-300 shadow-sm">
+            <i class="fa-solid {{ $icon }} text-sm"></i>
+            {{ $title }}
+          </button>
+        @endforeach
+      </div>
+
+      {{-- Accordion Daftar Pertanyaan (Seamless Single List) --}}
+      <div class="max-w-3xl mx-auto bg-surface border border-brand-primary/10 rounded-2xl glass divide-y divide-brand-primary/10 shadow-lg overflow-hidden">
+        @php
+          $faqs = [
+            [
+              'cat' => 'garansi',
+              'q' => 'Apakah Agung Motor memberikan garansi untuk setiap pengerjaan servis?',
+              'a' => 'Tentu. Setiap servis rutin maupun overhaul mesin yang dikerjakan oleh mekanik kami disertai dengan Garansi Servis resmi selama 14 hari atau 1.000 km (mana yang tercapai lebih dulu). Jika keluhan yang sama muncul kembali, kami akan melakukan perbaikan tanpa dikenakan biaya jasa.'
+            ],
+            [
+              'cat' => 'stok',
+              'q' => 'Bagaimana cara menjamin keaslian suku cadang (sparepart) yang dipasang?',
+              'a' => 'Kami menjalin kerja sama langsung dengan distributor resmi dari berbagai merek terkemuka seperti Motul, Shell, Yamalube, AHM, dan Bosch. Seluruh persediaan yang tersimpan di gudang kami dijamin 100% orisinal dan telah melalui verifikasi nomor seri pabrikan.'
+            ],
+            [
+              'cat' => 'biaya',
+              'q' => 'Apakah saya wajib melakukan booking jadwal atau bisa langsung datang ke bengkel?',
+              'a' => 'Anda dapat langsung datang (go-show) ke bengkel kami pada jam operasional. Namun, untuk menghindari antrean panjang pada akhir pekan atau jam sibuk, kami sangat menyarankan Anda melakukan konsultasi dan booking jadwal secara gratis melalui layanan WhatsApp kami.'
+            ],
+            [
+              'cat' => 'biaya',
+              'q' => 'Bagaimana sistem penghitungan dan transparansi estimasi biaya servis di Agung Motor?',
+              'a' => 'Transparansi adalah prioritas kami. Sebelum mekanik melakukan pembongkaran atau penggantian suku cadang, kasir/mekanik akan memberikan rincian estimasi biaya jasa dan sparepart secara tertulis. Pengerjaan baru akan dimulai setelah mendapatkan persetujuan penuh dari Anda.'
+            ],
+            [
+              'cat' => 'garansi',
+              'q' => 'Apakah Agung Motor melayani perbaikan darurat atau modifikasi kelistrikan canggih?',
+              'a' => 'Ya, mekanik spesialis kelistrikan kami terlatih untuk mendiagnosis masalah sistem injeksi (ECU), pengereman ABS, serta perbaikan darurat kelistrikan. Kami menggunakan pemindai diagnostik (scanner) mutakhir yang kompatibel dengan berbagai merek motor terkini.'
+            ],
+          ];
+        @endphp
+
+        @foreach ($faqs as $index => $faq)
+          <div x-show="activeTab === 'all' || activeTab === '{{ $faq['cat'] }}'"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform translate-y-1"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            class="transition-colors duration-300">
+            {{-- Pertanyaan --}}
+            <button @click="activeAccordion = activeAccordion === {{ $index }} ? null : {{ $index }}"
+              class="w-full px-8 py-6 text-left flex items-center justify-between gap-6 hover:bg-brand-primary/5 transition-colors group">
+              <span :class="activeAccordion === {{ $index }} ? 'text-brand-primary' : 'text-main group-hover:text-brand-primary'"
+                class="font-extrabold text-base md:text-lg transition-colors pr-4">
+                {{ $faq['q'] }}
+              </span>
+              <div :class="activeAccordion === {{ $index }} ? 'rotate-180 bg-brand-primary text-white border-brand-primary' : 'bg-surface border border-brand-primary/20 text-muted'"
+                class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 shadow-sm">
+                <i class="fa-solid fa-chevron-down text-sm"></i>
+              </div>
+            </button>
+
+            {{-- Jawaban --}}
+            <div x-show="activeAccordion === {{ $index }}"
+              x-transition:enter="transition ease-out duration-200"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              class="px-8 pb-7 pt-2 text-muted text-sm md:text-base leading-relaxed bg-brand-surface/20">
+              <p>{{ $faq['a'] }}</p>
+            </div>
+          </div>
+        @endforeach
+      </div>
+
+      {{-- Kotak Kontak Khusus FAQ (Sleek Callout Banner dengan Jarak Lega mt-20) --}}
+      <div class="mt-20 p-10 rounded-3xl border border-brand-primary/20 bg-gradient-to-b from-brand-primary/5 to-transparent text-center space-y-6 max-w-3xl mx-auto shadow-sm">
+        <div class="inline-flex p-4 rounded-2xl bg-brand-primary/10 text-brand-primary mb-2">
+          <i class="fa-solid fa-headset text-3xl animate-pulse"></i>
+        </div>
+        <div class="space-y-2 font-medium">
+          <h4 class="text-2xl font-extrabold text-main tracking-tight">Punya Pertanyaan Spesifik Lainnya?</h4>
+          <p class="text-sm text-muted max-w-lg mx-auto leading-relaxed">
+            Tim customer service dan mekanik kepala kami siap memberikan konsultasi teknis mendalam mengenai kondisi sepeda motor Anda secara gratis.
+          </p>
+        </div>
+        <div class="pt-2">
+          <a href="https://wa.me/6281234567890" class="btn-whatsapp py-4 px-10 text-sm font-bold shadow-lg shadow-brand-whatsapp/20 hover:scale-105 transition-transform">
+            <i class="fa-brands fa-whatsapp text-xl"></i> Tanyakan via WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   {{-- ===== CINEMATIC CTA ===== --}}
   <section class="py-32 md:py-60 relative flex items-center justify-center overflow-hidden bg-main">
     <div class="absolute inset-0 z-0">

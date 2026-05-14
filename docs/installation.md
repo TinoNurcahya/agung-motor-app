@@ -28,11 +28,11 @@ Panduan ini memandu Anda langkah demi langkah dalam menyiapkan lingkungan pengem
    ```bash
    php artisan migrate:fresh --seed
    ```
-6. **Jalankan server pengembangan lokal:**
+6. **Jalankan server pengembangan lokal (Untuk Jaringan / HP Fisik):**
    ```bash
-   php artisan serve
+   php artisan serve --host=0.0.0.0 --port=8000
    ```
-   *Server backend akan menyala dan dapat diakses di `http://localhost:8000`.*
+   *Server backend akan melayani koneksi dari perangkat dalam satu jaringan WiFi di port 8000.*
 
 ---
 
@@ -46,8 +46,12 @@ Panduan ini memandu Anda langkah demi langkah dalam menyiapkan lingkungan pengem
    flutter pub get
    ```
 3. **Konfigurasi Alamat API Backend (`lib/core/constants/api_constants.dart`):**
-   - Jika Anda menjalankan di peramban web (Chrome) atau fisik perangkat yang terhubung jaringan Wi-Fi sama: gunakan IP komputer Anda (misal `http://192.168.1.10:8000`).
-   - Jika menggunakan Android Emulator lokal: gunakan `http://10.0.2.2:8000`.
+   Secara bawaan menggunakan `http://192.168.1.5:8000`.
+   - **Jika menggunakan HP Fisik / Wireless Debugging:** Gunakan IP Address komputer/PC Anda di jaringan WiFi (misal `http://192.168.1.5:8000`).
+   - **Jika menggunakan Android Emulator lokal:** Gunakan `http://10.0.2.2:8000`.
+   - **Jika menggunakan Browser Web:** Gunakan `http://localhost:8000`.
+
+   *Catatan: Konfigurasi Android di `AndroidManifest.xml` telah diatur dengan `android:usesCleartextTraffic="true"` agar mengizinkan koneksi HTTP lokal.*
 
 4. **Jalankan aplikasi di perangkat fisik atau emulator:**
    ```bash

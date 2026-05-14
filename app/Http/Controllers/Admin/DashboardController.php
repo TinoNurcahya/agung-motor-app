@@ -109,10 +109,15 @@ class DashboardController extends Controller
     
     private function getRecentTransactions($limit = 5)
     {
+        $hasPenghasilanSlug = \Illuminate\Support\Facades\Schema::hasColumn('penghasilan', 'slug');
+        $hasPengeluaranSlug = \Illuminate\Support\Facades\Schema::hasColumn('pengeluaran', 'slug');
+
         // Gabungkan penghasilan dan pengeluaran
         $penghasilan = Penghasilan::select(
                 'id',
+                $hasPenghasilanSlug ? 'slug' : 'id as slug',
                 'tanggal',
+                'created_at',
                 DB::raw("'Penghasilan' as kategori"),
                 'service as keterangan',
                 'total as nominal',
@@ -122,7 +127,9 @@ class DashboardController extends Controller
         
         $pengeluaran = Pengeluaran::select(
                 'id',
+                $hasPengeluaranSlug ? 'slug' : 'id as slug',
                 'tanggal',
+                'created_at',
                 DB::raw("'Pengeluaran' as kategori"),
                 'keterangan',
                 'nominal',
@@ -132,7 +139,7 @@ class DashboardController extends Controller
         
         // Gabungkan dan urutkan berdasarkan tanggal
         $transactions = $penghasilan->concat($pengeluaran)
-            ->sortByDesc('tanggal')
+            ->sortByDesc('created_at')
             ->take($limit);
         
         return $transactions;
@@ -147,6 +154,65 @@ class DashboardController extends Controller
         return response()->json([
             'success' => true,
             'data' => $chartData
+        ]);
+    }
+
+    public function notifications()
+    {
+        $notifications = [];
+
+        // 1. Stok Menipis & Habis
+        $lowStock = Produk::where('stok', '<', 10)->get();
+        foreach ($lowStock as $p) {
+            $type = $p->stok <= 0 ? 'danger' : 'warning';
+            $msg = $p->stok <= 0 ? 'Stok produk habis dan perlu segera diisi ulang.' : 'Sisa stok hanya ' . $p->stok . ' unit.';
+            $notifications[] = [
+                'id' => 'p_' . $p->id,
+                'title' => ($p->stok <= 0 ? 'Stok Habis: ' : 'Stok Menipis: ') . $p->nama,
+                'message' => $msg,
+                'type' => $type,
+                'time' => $p->updated_at ? $p->updated_at->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->updated_at ? $p->updated_at->timestamp : now()->timestamp,
+                'url' => route('admin.produk.show', $p->slug ?: $p->id),
+            ];
+        }
+
+        // 2. Transaksi Pemasukan Terbaru
+        $penghasilan = Penghasilan::latest('created_at')->take(5)->get();
+        foreach ($penghasilan as $p) {
+            $notifications[] = [
+                'id' => 'inc_' . $p->id,
+                'title' => 'Pemasukan Baru: ' . $p->service,
+                'message' => 'Tercatat pemasukan sebesar Rp ' . number_format($p->total, 0, ',', '.'),
+                'type' => 'success',
+                'time' => $p->created_at ? $p->created_at->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->created_at ? $p->created_at->timestamp : now()->timestamp,
+                'url' => route('admin.penghasilan.show', $p->slug ?: $p->id),
+            ];
+        }
+
+        // 3. Transaksi Pengeluaran Terbaru
+        $pengeluaran = Pengeluaran::latest('created_at')->take(5)->get();
+        foreach ($pengeluaran as $p) {
+            $notifications[] = [
+                'id' => 'exp_' . $p->id,
+                'title' => 'Pengeluaran Bengkel: ' . $p->keterangan,
+                'message' => 'Tercatat pengeluaran sebesar Rp ' . number_format($p->nominal, 0, ',', '.'),
+                'type' => 'info',
+                'time' => $p->created_at ? $p->created_at->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->created_at ? $p->created_at->timestamp : now()->timestamp,
+                'url' => route('admin.pengeluaran.show', $p->slug ?: $p->id),
+            ];
+        }
+
+        // Urutkan berdasarkan timestamp terbaru
+        usort($notifications, function($a, $b) {
+            return $b['timestamp'] <=> $a['timestamp'];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => array_slice($notifications, 0, 15)
         ]);
     }
 }

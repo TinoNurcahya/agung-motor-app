@@ -90,31 +90,39 @@ class DashboardController extends Controller
     public function recentTransactions(Request $request)
     {
         $limit = $request->get('limit', 10);
+        $hasPenghasilanSlug = \Illuminate\Support\Facades\Schema::hasColumn('penghasilan', 'slug');
+        $hasPengeluaranSlug = \Illuminate\Support\Facades\Schema::hasColumn('pengeluaran', 'slug');
         
         $penghasilan = Penghasilan::select(
                 'id',
+                $hasPenghasilanSlug ? 'slug' : 'id as slug',
                 'tanggal',
+                'created_at',
                 DB::raw("'Penghasilan' as kategori"),
                 'service as keterangan',
                 'total as nominal',
                 DB::raw("'income' as type")
             )
+            ->latest('created_at')
             ->limit($limit)
             ->get();
         
         $pengeluaran = Pengeluaran::select(
                 'id',
+                $hasPengeluaranSlug ? 'slug' : 'id as slug',
                 'tanggal',
+                'created_at',
                 DB::raw("'Pengeluaran' as kategori"),
                 'keterangan',
                 'nominal',
                 DB::raw("'expense' as type")
             )
+            ->latest('created_at')
             ->limit($limit)
             ->get();
         
         $transactions = $penghasilan->concat($pengeluaran)
-            ->sortByDesc('tanggal')
+            ->sortByDesc('created_at')
             ->take($limit)
             ->values();
 
@@ -144,28 +152,28 @@ class DashboardController extends Controller
         }
 
         // 2. Transaksi Pemasukan Terbaru
-        $penghasilan = Penghasilan::latest('tanggal')->take(5)->get();
+        $penghasilan = Penghasilan::latest('created_at')->take(5)->get();
         foreach ($penghasilan as $p) {
             $notifications[] = [
                 'id' => 'inc_' . $p->id,
                 'title' => 'Pemasukan Baru: ' . $p->service,
                 'message' => 'Tercatat pemasukan sebesar Rp ' . number_format($p->total, 0, ',', '.'),
                 'type' => 'success',
-                'time' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->format('d M Y H:i') : now()->format('d M Y H:i'),
-                'timestamp' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->timestamp : now()->timestamp,
+                'time' => $p->created_at ? $p->created_at->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->created_at ? $p->created_at->timestamp : now()->timestamp,
             ];
         }
 
         // 3. Transaksi Pengeluaran Terbaru
-        $pengeluaran = Pengeluaran::latest('tanggal')->take(5)->get();
+        $pengeluaran = Pengeluaran::latest('created_at')->take(5)->get();
         foreach ($pengeluaran as $p) {
             $notifications[] = [
                 'id' => 'exp_' . $p->id,
                 'title' => 'Pengeluaran Bengkel: ' . $p->keterangan,
                 'message' => 'Tercatat pengeluaran sebesar Rp ' . number_format($p->nominal, 0, ',', '.'),
                 'type' => 'info',
-                'time' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->format('d M Y H:i') : now()->format('d M Y H:i'),
-                'timestamp' => $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->timestamp : now()->timestamp,
+                'time' => $p->created_at ? $p->created_at->format('d M Y H:i') : now()->format('d M Y H:i'),
+                'timestamp' => $p->created_at ? $p->created_at->timestamp : now()->timestamp,
             ];
         }
 

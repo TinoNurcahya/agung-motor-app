@@ -12,6 +12,7 @@ class Produk extends Model
     protected $table = 'produk';
     
     protected $fillable = [
+        'slug',
         'nama',
         'kategori',
         'sku',
@@ -20,6 +21,16 @@ class Produk extends Model
         'deskripsi',
         'gambar',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $base = \Illuminate\Support\Str::slug(substr($model->nama ?: 'produk', 0, 50));
+                $model->slug = $base . '-' . uniqid();
+            }
+        });
+    }
 
     protected $casts = [
         'harga' => 'decimal:0',

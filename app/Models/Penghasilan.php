@@ -12,6 +12,7 @@ class Penghasilan extends Model
     protected $table = 'penghasilan';
     
     protected $fillable = [
+        'slug',
         'tanggal',
         'plat_nomor',
         'nama_pemilik',
@@ -22,6 +23,16 @@ class Penghasilan extends Model
         'total',
         'catatan',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $base = \Illuminate\Support\Str::slug(substr($model->service ?: 'pemasukan', 0, 50));
+                $model->slug = $base . '-' . uniqid();
+            }
+        });
+    }
 
     protected $casts = [
         'tanggal' => 'date',
