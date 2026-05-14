@@ -1,0 +1,62 @@
+# Agung Motor Mobile — Setup & Run Guide
+
+## Langkah untuk Menjalankan Aplikasi
+
+1. Buka terminal di folder `agung_motor_app_mobile`:
+```
+cd "d:\Joki Tugas Aga\agung_motor_app_mobile"
+```
+
+2. Buat folder assets (jika belum ada):
+```
+mkdir assets\images
+```
+
+3. Install dependencies:
+```
+flutter pub get
+```
+
+4. Pastikan emulator Android / perangkat fisik sudah terdeteksi:
+```
+flutter devices
+```
+
+5. Jalankan aplikasi:
+```
+flutter run
+```
+
+## Konfigurasi IP Backend
+
+Edit file: `lib/core/constants/api_constants.dart`
+
+- **Emulator Android:** gunakan `http://10.0.2.2:8000` (sudah default)
+- **Perangkat fisik:** ganti dengan IP PC kamu, contoh: `http://192.168.1.5:8000`
+
+## Struktur yang Sudah Dibuat
+
+```
+lib/
+├── main.dart                            # Entry point + auth routing
+├── core/
+│   ├── constants/api_constants.dart     # Semua endpoint API
+│   ├── services/api_service.dart        # HTTP client (GET/POST/PUT/DELETE)
+│   ├── providers/auth_provider.dart     # State auth + token
+│   └── theme/app_theme.dart             # Dark theme matching web admin
+└── features/
+    ├── auth/screens/login_screen.dart         # Login screen
+    ├── dashboard/
+    │   ├── screens/admin_dashboard_screen.dart  # Main shell + bottom nav
+    │   ├── screens/dashboard_home_screen.dart   # Overview + charts
+    │   └── widgets/ (stat_card, chart_widget, etc)
+    ├── penghasilan/
+    │   ├── screens/penghasilan_screen.dart     # CRUD Penghasilan
+    │   └── widgets/penghasilan_form.dart
+    ├── pengeluaran/
+    │   ├── screens/pengeluaran_screen.dart     # CRUD Pengeluaran
+    │   └── widgets/pengeluaran_form.dart
+    ├── produk/screens/produk_screen.dart       # CRUD Inventaris
+    ├── statistik/screens/statistik_screen.dart # Charts & Stats
+    └── ai/screens/ai_screen.dart               # AI Analytics
+```
